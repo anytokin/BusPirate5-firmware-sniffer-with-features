@@ -38,6 +38,8 @@ const char* const i2c_sniff_help[] = {
 const struct ui_help_options i2c_sniff_options[] = {
     { 1, "", T_I2C_SNIFF },
     { 0, "q", T_I2C_SNIFF_QUIET },
+    { 0, "r", T_I2C_SNIFF_RAW },
+    { 0, "7", T_I2C_SNIFF_7_BIT_ADDRESSES}
     { 0, "h", T_HELP_FLAG },
 };
 
@@ -135,13 +137,13 @@ void i2c_sniff(struct command_result* res){
                 bool ack = (val & 1) ? false : true;
                 //printf("val: %x, ev_code: %x, data:%x, ack: %d \r\n", val, ev_code, data, ack);
                 if (ev_code == EV_START) {
-                    if (raw == false) {
+                    if (!raw) {
                         printf("[");
                     }
                     expect_addr = true;
 
                 } else if (ev_code == EV_STOP) {
-                    if (raw == false) {
+                    if (!raw) {
                         printf("]\r\n");
                     } else {
                         printf("\r\n");
@@ -152,7 +154,7 @@ void i2c_sniff(struct command_result* res){
                     if (addr7 && expect_addr) {
                         uint8_t addr = (uint8_t)(data >> 1);
                         bool rd = (data & 0x01) != 0;
-                        if (raw == false) {
+                        if (!raw) {
                             printf(" %c[0x%02X]", rd ? 'R' : 'W', addr);
                         } else {
                             printf(" 0x%02X", addr);
@@ -163,7 +165,7 @@ void i2c_sniff(struct command_result* res){
 
                         expect_addr = false;
                     } else {
-                        if (raw == false) {
+                        if (!raw) {
                             if (ack) {
                                 printf(" 0x[%02X]", data);
                             } else {
@@ -208,13 +210,13 @@ void i2c_sniff(struct command_result* res){
                 bool ack = (val & 1) ? false : true;
                 //printf("val: %x, ev_code: %x, data:%x, ack: %d \r\n", val, ev_code, data, ack);
                 if (ev_code == EV_START) {
-                    if (raw == false){
+                    if (!raw){
                         printf("[");
                     }
                     expect_addr = true;
 
                 } else if (ev_code == EV_STOP) {
-                    if (raw == false){
+                    if (!raw){
                         printf("]\r\n");
                     }
                     expect_addr = false;
@@ -223,14 +225,14 @@ void i2c_sniff(struct command_result* res){
                     if (addr7 && expect_addr) {
                         uint8_t addr = (uint8_t)(data >> 1);
                         bool rd = (data & 0x01) != 0;
-                        if (raw == false){
+                        if (!raw){
                             printf(" %c[0x%02X]%c", rd ? 'R' : 'W', addr, (ack ? '+' : '-'));
                         } else {
                             printf(" 0x%02X%c", addr, (ack ? '+' : '-'));
                         }
                         expect_addr = false;
                     } else {
-                        if (raw == false){
+                        if (!raw){
                             printf(" [0x%02X]%c", data, (ack ? '+' : '-'));
                         } else {
                             printf(" 0x%02X%c", data, (ack ? '+' : '-'));
