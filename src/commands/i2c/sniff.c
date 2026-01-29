@@ -39,7 +39,7 @@ const struct ui_help_options i2c_sniff_options[] = {
     { 1, "", T_I2C_SNIFF },
     { 0, "q", T_I2C_SNIFF_QUIET },
     { 0, "r", T_I2C_SNIFF_RAW },
-    { 0, "7", T_I2C_SNIFF_7_BIT_ADDRESSES}
+    { 0, "7", T_I2C_SNIFF_7_BIT_ADDRESSES},
     { 0, "h", T_HELP_FLAG },
 };
 
