@@ -218,6 +218,8 @@ void i2c_sniff(struct command_result* res){
                 } else if (ev_code == EV_STOP) {
                     if (!raw){
                         printf("]\r\n");
+                    } else {
+                        print("\r\n");
                     }
                     expect_addr = false;
 
