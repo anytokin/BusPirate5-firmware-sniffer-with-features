@@ -219,7 +219,7 @@ void i2c_sniff(struct command_result* res){
                     if (!raw){
                         printf("]\r\n");
                     } else {
-                        print("\r\n");
+                        printf("\r\n");
                     }
                     expect_addr = false;
 
